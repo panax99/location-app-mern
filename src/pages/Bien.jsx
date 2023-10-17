@@ -15,29 +15,25 @@ const Bien = () => {
     const [user,setUser] = useState({});
     const [bien,setBien] = useState([]);
 
-    const [dataLoc,setDataLoc] = useState({
-        lastname: "",
-        firstname: "",
-        address: "",
-        email: "",
-        telephone: "",
-        bien: ""
+    const [dataBien,setDataBien] = useState({
+        type: "",
+        loyer: "",
+        surface: "",
+        adresse: ""
     });
 
     const [dataLocModif,setDataLocModif] = useState({
-        lastname: "",
-        firstname: "",
-        address: "",
-        email: "",
-        telephone: "",
-        bien: ""
+        type: "",
+        loyer: "",
+        surface: "",
+        adresse: ""
     });
     const navigate = useNavigate()
 
     // handle change inputs
     const handleChange = (e) => {
-        setDataLoc({
-            ...dataLoc,
+        setDataBien({
+            ...dataBien,
             [e.target.name] : e.target.value
         })
     }
@@ -67,10 +63,10 @@ const Bien = () => {
             const token = localStorage.getItem("token");
             const decode = jwtDecode(token);
             if (decode) {
-                const emailUser = decode.email;
-                const userFilter = users.filter(user => user.email === emailUser);
+                const emailUser = decode.surface;
+                const userFilter = users.filter(user => user.surface === emailUser);
                 setIdUser(userFilter[0]?._id);
-                console.log(userFilter[0]?._id);
+                console.log(userFilter[0]?._id)
             } else {
                 navigate('/login');
                 alert('Session expiré!');
@@ -116,26 +112,24 @@ const Bien = () => {
             console.log('Nothing to do!');
         }
     }
-    const postData = async(idBien) => {
+    const postData = async() => {
         if (idUser) {
-            await axios.post(`${urlApi}/proprios/${idUser}/bien/${idBien}`)
+            await axios.post(`${urlApi}/proprios/${idUser}/bien`,dataBien)
                 .then((res) => {
-                    if (res.data.message){
-                        console.log(res.data.message)
-                    } else {
-                        setBien(res.data);
-                        console.log(res.data);
-                    }
+                    alert(res.data.message)
+                    console.log(res.data)
+                    setShow(false);
+                    setDataBien(bien)
                 })
                 .catch((err) => {
-                    alert(err.response.data.message)
-                    console.error(err.response.data.message)
+                    alert(err)
+                    console.error(err)
                 })
         } else {
             console.log('Nothing to do!');
         }
     }
-    const deleteLocataire = async() => {
+    const deleteBien = async() => {
         const idBien = bien.map(bien => bien._id);
         await axios.delete(`${urlApi}/proprios/${idUser}/bien/${idBien}`)
             .then((res) => {
@@ -151,7 +145,7 @@ const Bien = () => {
                 console.error(err.response.data.message);
             })
     }
-    const updateLocataire = async() => {
+    const updateBien = async() => {
         const idBien = bien.map(bien => bien._id);
         await axios.put(`${urlApi}/proprios/${idUser}/bien/${idBien}`,dataLocModif)
             .then((res) => {
@@ -182,6 +176,15 @@ const Bien = () => {
     },[idUser])
 
     useEffect(() => {
+        fetchData();
+    },[show])
+
+    //after posting data 
+    useEffect(() => {
+
+    },[postData])
+
+    useEffect(() => {
         fetchOneData();
     },[idUser])
 
@@ -203,25 +206,23 @@ const Bien = () => {
                         bien.length > 0 ? (
                             <table className={styles.table}>
                                 <thead>
-                                    <td>Nom</td>
-                                    <td>Prenom</td>
-                                    <td>Email</td>
-                                    <td>Adresse</td>
-                                    <td>Téléphone</td>
-                                    <td>Bien</td>
-                                    <td>Actions</td>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Loyer</th>
+                                        <th>Surface</th>
+                                        <th>Adresse</th>
+                                        <th style={{width:'20px'}}>Actions</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     {
                                         bien.map((bien) => (
                                             <tr key={bien._id}>
-                                                <td>{bien.lastname}</td>
-                                                <td>{bien.firstname}</td>
-                                                <td>{bien.email}</td>
-                                                <td>{bien.address}</td>
-                                                <td>{bien.telephone}</td>
-                                                <td>{bien.bien}</td>
-                                                <td style={{width:'15%',display:'flex',alignItems:'center'}}> 
+                                                <td>{bien.type}</td>
+                                                <td>{bien.loyer} Ar</td>
+                                                <td>{bien.surface}</td>
+                                                <td>{bien.adresse}</td>
+                                                <td style={{width:'fit-content',display:'flex',alignItems:'center'}}> 
                                                     <div className={styles.btn_modif} onClick={() => setShowUpdate(!showUpdate)}><i className="fas fa-pen"></i></div>
                                                     <div className={styles.btn_suppr} onClick={() => setShowDelete(!showDelete)}><i className="fas fa-trash"></i></div>
                                                 </td>
@@ -244,33 +245,30 @@ const Bien = () => {
 
             <div className={show ? styles.modal : styles.modal_none}>
                 <h2>Nouveau bien</h2>
-                <input type={"text"} placeholder="Nom" name='lastname' value={dataLoc.lastname} onChange={handleChange}/>
-                <input type={"text"} placeholder="Prenom" name='firstname' value={dataLoc.firstname} onChange={handleChange}/>
-                <input type={"text"} placeholder="Email" name='email' value={dataLoc.email} onChange={handleChange}/>
-                <input type={"text"} placeholder="Adresse postal" name='address' value={dataLoc.address} onChange={handleChange}/>
-                <input type={"text"} placeholder="Téléphone" name='telephone' value={dataLoc.telephone} onChange={handleChange}/>
-                <input type={"text"} placeholder="Bien" name='bien' value={dataLoc.bien} onChange={handleChange}/>
+                <input type={"text"} placeholder="Type" name='type' value={dataBien.type} onChange={handleChange}/>
+                <input type={"text"} placeholder="Loyer" name='loyer' value={dataBien.loyer} onChange={handleChange}/>
+                <input type={"text"} placeholder="Surface" name='surface' value={dataBien.surface} onChange={handleChange}/>
+                <input type={"text"} placeholder="Adresse" name='adresse' value={dataBien.adresse} onChange={handleChange}/>
                 
-                <div className={styles.btn_ajout_confirm} onClick={() => postData(dataLoc.bien)}>Valider</div>
+                <div className={styles.btn_ajout_confirm} onClick={() => postData()} key={bien._id}>Valider</div>
 
             </div>
 
             <div className={showUpdate ? styles.modal : styles.modal_none}>
                 <h2>Modifier le bien</h2>
-                <input type={"text"} placeholder="Nom" name='lastname' value={dataLocModif.lastname} onChange={handleChangeModif}/>
-                <input type={"text"} placeholder="Prenom" name='firstname' value={dataLocModif.firstname} onChange={handleChangeModif}/>
-                <input type={"text"} placeholder="Email" name='email' value={dataLocModif.email} onChange={handleChangeModif}/>
-                <input type={"text"} placeholder="Adresse postal" name='address' value={dataLocModif.address} onChange={handleChangeModif}/>
-                <input type={"text"} placeholder="Téléphone" name='telephone' value={dataLocModif.telephone} onChange={handleChangeModif}/>
-                <input type={"text"} placeholder="Bien" name='bien' value={dataLocModif.bien} onChange={handleChangeModif}/>
-                <div className={styles.btn_ajout_confirm} onClick={updateLocataire}>Valider</div>
+                <input type={"text"} placeholder="Type" name='type' value={dataLocModif.type} onChange={handleChangeModif}/>
+                <input type={"text"} placeholder="Loyer" name='loyer' value={dataLocModif.loyer} onChange={handleChangeModif}/>
+                <input type={"text"} placeholder="surface" name='surface' value={dataLocModif.surface} onChange={handleChangeModif}/>
+                <input type={"text"} placeholder="Adresse postal" name='adresse' value={dataLocModif.adresse} onChange={handleChangeModif}/>
+
+                <div className={styles.btn_ajout_confirm} onClick={updateBien}>Valider</div>
             </div>
 
-            <div className={showDelete ? styles.modal : styles.modal_none}>
+            <div className={showDelete ? styles.modal : styles.modal_none} style={{height:'40%'}}>
                 <h2>Supprimer le bien</h2>
                 <p>Etes vous sûr de vouloir supprimer?</p>
-                <div className={styles.btn_ajout_confirm} onClick={deleteLocataire}>Supprimer</div>
-                <div className={styles.btn_ajout_confirm} onClick={() => setShowDelete(!show)}>Annuler</div>
+                <div className={styles.btn_ajout_confirm} onClick={deleteBien}>Supprimer</div>
+                <div className={styles.btn_ajout_confirm} onClick={() => setShowDelete(false)} style={{marginTop:'5px'}}>Annuler</div>
             </div>
             
         </>

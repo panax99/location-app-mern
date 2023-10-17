@@ -25,15 +25,17 @@ const Account = () => {
                 console.error(err.response.data.message)
             )
     }
+
+    //in the auth
     const getUserAuth = () => {
-        if (users.length > 0){
+        if (users){
             const token = localStorage.getItem("token");
             const decode = jwtDecode(token);
             if (decode) {
                 const emailUser = decode.email;
                 const userFilter = users.filter(user => user.email === emailUser);
                 setUserAuth(userFilter[0] ? userFilter[0] : userFilter);
-                console.log(userFilter[0] ? userFilter[0] : userFilter);
+                console.log(userFilter);
             } else {
                 navigate('/login');
                 alert('Session expiré!');
@@ -43,6 +45,8 @@ const Account = () => {
             console.log("Nothing to do! Users not fetched")
         }
     }
+
+    //
     const checkValid = async() => {
         try {
             const token = localStorage.getItem("token");
@@ -93,10 +97,10 @@ const Account = () => {
                                 Email : {userAuth.email}
                             </div>
                             <div className={styles.p}>
-                                Biens: {userAuth.biens.length}
+                                Biens: {userAuth.biens?.length}
                             </div>
                             <div className={styles.p}>
-                                Locataires: {userAuth.locataires.length}
+                                Locataires: {userAuth.locataires?.length}
                             </div>
                             
                     </>
