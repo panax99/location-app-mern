@@ -76,16 +76,13 @@ module.exports.addNewBien = async(req,res) => {
             res.json({message: "Propriétaire n'existe pas"});
         }
         const newBien = new Bien({ type:type,loyer:loyer,surface:surface,adresse:adresse, proprietaire: proprietaireId});
-        const bienAjoute = await newBien.save()
-            .then(
-                res.json({message: "ajouté nouveau bien!"})
-            )
-            .catch((err) => {
-                res.json({message: "Erreur ajout bien"+err})
-            })  
+        const bienAjoute = await newBien.save();  
         if (bienAjoute) {
             user.biens.push(newBien);
             await user.save();
+            res.json({message: "ajouté nouveau bien!"})
+        } else {
+            res.json({message: "Erreur ajout bien"+err})
         }
     } catch (err) {
         res.status(500).json({ error: 'Internal server error' });
