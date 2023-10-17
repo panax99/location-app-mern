@@ -13,8 +13,10 @@ const Bien = () => {
     const [showDelete,setShowDelete] = useState(false);
     const [idUser,setIdUser] = useState("");
     const [users,setUsers] = useState([]);
-    const [user,setUser] = useState({});
+    //const [user,setUser] = useState({});
     const [bien,setBien] = useState([]);
+    const [idDelete,setIdDelete] = useState('');
+    const [idUpdate,setIdUpdate] = useState('');
     const [dataBien,setDataBien] = useState({
         type: "",
         loyer: "",
@@ -121,7 +123,12 @@ const Bien = () => {
                     alert(res.data.message);
                     console.log(res.data);
                     setShow(false);
-                    setDataBien(dataBien);
+                    setDataBien({
+                        type: "",
+                        loyer: "",
+                        surface: "",
+                        adresse: ""
+                    });
                 })
                 .catch((err) => {
                     alert(err)
@@ -131,9 +138,10 @@ const Bien = () => {
             console.log('Nothing to do!');
         }
     }
+    
     const deleteBien = async() => {
         const idBien = bien.map(bien => bien._id);
-        await axios.delete(`${urlApi}/proprios/${idUser}/bien/${idBien}`)
+        await axios.delete(`${urlApi}/proprios/${idUser}/bien/${idDelete}`)
             .then((res) => {
                 if (res.data.message){
                     alert(res.data.message);
@@ -149,7 +157,7 @@ const Bien = () => {
     }
     const updateBien = async() => {
         const idBien = bien.map(bien => bien._id);
-        await axios.put(`${urlApi}/proprios/${idUser}/bien/${idBien}`,dataLocModif)
+        await axios.put(`${urlApi}/proprios/${idUser}/bien/${idUpdate}`,dataLocModif)
             .then((res) => {
                 if (res.data.message){
                     alert(res.data.message);
@@ -182,15 +190,11 @@ const Bien = () => {
 
     useEffect(() => {
         fetchData();
-    },[show])
-
-    useEffect(() => {
-        fetchData();
-    },[showDelete])
+    },[show || showDelete || showUpdate])
 
     //after posting data 
     useEffect(() => {
-
+        fetchData
     },[postData])
 
     useEffect(() => {
@@ -234,8 +238,19 @@ const Bien = () => {
                                                 <td>{bien.surface}</td>
                                                 <td>{bien.adresse}</td>
                                                 <td style={{width:'fit-content',display:'flex',alignItems:'center'}}> 
-                                                    <div className={styles.btn_modif} onClick={() => setShowUpdate(!showUpdate)}><i className="fas fa-pen"></i></div>
-                                                    <div className={styles.btn_suppr} onClick={() => setShowDelete(!showDelete)}><i className="fas fa-trash"></i></div>
+                                                    <div className={styles.btn_modif} onClick={() => {
+                                                        setShowUpdate(!showUpdate)
+                                                        setIdUpdate(bien._id)
+                                                    }}
+                                                    >
+                                                        <i className="fas fa-pen"></i>
+                                                    </div>
+                                                    <div className={styles.btn_suppr} onClick={() => {
+                                                        setShowDelete(!showDelete)
+                                                        setIdDelete(bien._id);
+                                                    }}>
+                                                        <i className="fas fa-trash"></i>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         ))
