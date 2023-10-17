@@ -128,9 +128,38 @@ module.exports.deleteBien = async(req,res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 }
+module.exports.getBien = async(req,res) => {
+    try {
+        const proprietaireId = req.params.id;
+        const user = await Proprietaire.findById(proprietaireId);
+        if(!user) {
+            res.status(401).json({message: "Propriétaire n'existe pas"});
+        }
+        const biens = await Bien.find({proprietaire: proprietaireId});
+        biens ? res.json(biens) : res.json({message: "Aucun bien."});
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
 /* */
 
 /* LOCATAIRES */
+module.exports.getLocataire = async(req,res) => {
+    try {
+        const proprietaireId = req.params.id;
+        const user = await Proprietaire.findById(proprietaireId);
+        if(!user) {
+            res.status(401).json({message: "Propriétaire n'existe pas"});
+        }
+        const bienUser = await Bien.find({proprietaire: proprietaireId});
+        const locataires = await Locataire.find({bien: bienUser});
+        locataires.length > 0 ? res.json(locataires) : res.json({message: "Aucun locataire."});
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
+
 module.exports.updateLocataire = async(req,res) => {
     try{
         const proprietaireId = req.params.id;
@@ -184,15 +213,18 @@ module.exports.addNewLocataire = async(req,res) => {
             res.status(405).json({message: "Bien n'existe pas"});
         }
         const newLocataire = new Locataire({ lastname,firstname,email,address,telephone,bien: bienId});
-        await newLocataire.save();
-
-        user.locataires.push(newLocataire);
-        await user.save();
-
-        res.status(201).json({message: "Locataire ajouté!"});
+        const locAdded = await newLocataire.save();
+        
+        if (locAdded) {
+            user.locataires.push(newLocataire);
+            await user.save();
+            res.json({ message: "Locataire ajouté avec succès!" });
+        } else {
+            res.json({ message: "pas ajouté!" });
+        }
         
     } catch (err) {
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: 'Internal server error'+err });
     }
 }
 
