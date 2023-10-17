@@ -32,8 +32,8 @@ const Account = () => {
             if (decode) {
                 const emailUser = decode.email;
                 const userFilter = users.filter(user => user.email === emailUser);
-                setUserAuth(userFilter[0]);
-                console.log(userFilter[0]);
+                setUserAuth(userFilter[0] ? userFilter[0] : userFilter);
+                console.log(userFilter[0] ? userFilter[0] : userFilter);
             } else {
                 navigate('/login');
                 alert('Session expiré!');
