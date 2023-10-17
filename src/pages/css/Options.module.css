@@ -1,0 +1,153 @@
+.container_options{
+    width: 78%;
+    height: 100vh;
+    position: fixed;
+    left:19em;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background: white;
+}
+.container{
+    padding: 2em;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+.container p{
+    font-size: 19px;
+}
+
+.table{
+    border: 1px solid burlywood;
+    width: 65vw;
+    font-size: 18px;
+
+}
+.table thead{
+    background: burlywood;
+    height: 2.5em;
+    color: white;
+    border: 0;
+}
+.table tbody{
+    background: white;
+    height: 1em;
+    border: 1px solid black;
+}
+.table tr{
+    background: whitesmoke;
+    border: 1px solid black;
+
+}
+.table tr{
+    background: white;
+    padding: 0.4em;
+    border: 1px solid black;
+}
+.table td{
+    border: 0;
+}
+
+.btn_modif{
+    padding: 0.6em;
+    background: burlywood;
+    color: white;
+    border-radius: 5px;
+    border: 0;
+    cursor: pointer;
+    margin-right: 5px;
+}
+.btn_suppr{
+    padding: 0.6em;
+    background: white;
+    color: burlywood;
+    border-radius: 5px;
+    border: 1px solid burlywood;
+    cursor: pointer;
+}
+.btn_ajout{
+    padding: 0.6em;
+    padding-left: 1em;
+    padding-right: 1em;
+    background: burlywood;
+    color: white;
+    width: fit-content;
+    border-radius: 7px;
+    border: 0;
+    cursor: pointer;
+    margin-right: 5px;
+    margin-bottom: 1em;
+    font-size: 18px;
+}
+.btn_ajout_confirm{
+    padding: 0.6em;
+    padding-left: 1em;
+    padding-right: 1em;
+    background: burlywood;
+    color: white;
+    width: fit-content;
+    border-radius: 7px;
+    margin-top: 1em;
+    width: 89%;
+    border: 0;
+    cursor: pointer;
+    margin-right: 5px;
+    margin-bottom: 1em;
+    font-size: 18px;
+}
+
+.modal{
+    padding: 2em;
+    z-index: 1055;
+    margin: auto;
+    background: white;
+    position: absolute;
+    top: 10%;
+    left: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    transition: 0.7s all;
+}
+input:focus {
+    border: none;
+}
+.title{
+    color: burlywood;
+    font-size: 37px;
+    font-weight: 700;   
+    font-family: Canela;
+}
+.modal input{
+    width: 19em;
+}
+.modal_none{
+    padding: 2em;
+    z-index: 1055;
+    margin: auto;
+    background: white;
+    position: absolute;
+    top: 10%;
+    left: 45%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    transform: skew(5em,6em);
+    transition: 0.7s all;
+}

@@ -1,0 +1,24 @@
+.navbar{
+    width: 19em;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: burlywood;
+    padding-top: 2em;
+}
+.navbar ul li{
+    list-style: none;
+    font-size: larger;
+    font-weight: 600;
+    margin-top: 1.5em;
+
+}
+.title{
+    color: white;
+    font-size: 37px;
+    font-weight: 700;   
+    font-family: Canela;
+    margin-left: 1.4em;
+    margin-top: 2em !important;
+}
