@@ -77,10 +77,11 @@ module.exports.addNewBien = async(req,res) => {
         }
         const newBien = new Bien({ type:type,loyer:loyer,surface:surface,adresse:adresse, proprietaire: proprietaireId});
         const bienAjoute = await newBien.save();  
+
         if (bienAjoute) {
+            res.json({message: "ajouté nouveau bien!"})
             user.biens.push(newBien);
             await user.save();
-            res.json({message: "ajouté nouveau bien!"})
         } else {
             res.json({message: "Erreur ajout bien"+err})
         }
