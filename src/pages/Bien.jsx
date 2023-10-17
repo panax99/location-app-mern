@@ -7,6 +7,7 @@ import Navbar from "../components/Navbar"
 import styles from "./css/Options.module.css"
 
 const Bien = () => {
+    {/* STATES */}
     const [show,setShow] = useState(false);
     const [showUpdate,setShowUpdate] = useState(false);
     const [showDelete,setShowDelete] = useState(false);
@@ -14,23 +15,23 @@ const Bien = () => {
     const [users,setUsers] = useState([]);
     const [user,setUser] = useState({});
     const [bien,setBien] = useState([]);
-
     const [dataBien,setDataBien] = useState({
         type: "",
         loyer: "",
         surface: "",
         adresse: ""
     });
-
     const [dataLocModif,setDataLocModif] = useState({
         type: "",
         loyer: "",
         surface: "",
         adresse: ""
     });
+    {/* END STATES */}
+
     const navigate = useNavigate()
 
-    // handle change inputs
+    {/* HANDLE INPUTS */}
     const handleChange = (e) => {
         setDataBien({
             ...dataBien,
@@ -43,8 +44,9 @@ const Bien = () => {
             [e.target.name] : e.target.value
         })
     }
+    {/* END HANDLE INPUTS */}
 
-    // fetch data  
+    {/* DATA HANDLING */} 
     const getUsers = async() => {
         await axios.get(urlApi+'/proprios')
             .then((res) => {
@@ -63,8 +65,8 @@ const Bien = () => {
             const token = localStorage.getItem("token");
             const decode = jwtDecode(token);
             if (decode) {
-                const emailUser = decode.surface;
-                const userFilter = users.filter(user => user.surface === emailUser);
+                const emailUser = decode.email;
+                const userFilter = users.filter(user => user.email === emailUser);
                 setIdUser(userFilter[0]?._id);
                 console.log(userFilter[0]?._id)
             } else {
@@ -116,10 +118,10 @@ const Bien = () => {
         if (idUser) {
             await axios.post(`${urlApi}/proprios/${idUser}/bien`,dataBien)
                 .then((res) => {
-                    alert(res.data.message)
-                    console.log(res.data)
+                    alert(res.data.message);
+                    console.log(res.data);
                     setShow(false);
-                    setDataBien(bien)
+                    setDataBien(dataBien);
                 })
                 .catch((err) => {
                     alert(err)
@@ -161,7 +163,10 @@ const Bien = () => {
                 console.error(err.response.data.message);
             })
     }
+    {/* END DATA HANDLING */}
     //const fileredLocataire = bien.filter(bien => bien._id === dataLocModif.);
+
+    {/* EFFECTS */}
 
     useEffect(() => {
         getUsers();
@@ -179,6 +184,10 @@ const Bien = () => {
         fetchData();
     },[show])
 
+    useEffect(() => {
+        fetchData();
+    },[showDelete])
+
     //after posting data 
     useEffect(() => {
 
@@ -191,6 +200,8 @@ const Bien = () => {
     useEffect(() => {
         show ? document.body.style.backgroundColor = "darkgray" : null
     },[show])
+
+    {/* END EFFECTS */}
 
     return(
         <>
