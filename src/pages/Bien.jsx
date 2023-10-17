@@ -13,7 +13,7 @@ const Bien = () => {
     const [idUser,setIdUser] = useState("");
     const [users,setUsers] = useState([]);
     const [user,setUser] = useState({});
-    const [locataire,setLocataire] = useState([]);
+    const [bien,setBien] = useState([]);
 
     const [dataLoc,setDataLoc] = useState({
         lastname: "",
@@ -82,12 +82,12 @@ const Bien = () => {
     }
     const fetchData = async() => {
         if (idUser) {
-            await axios.get(`${urlApi}/proprios/${idUser}/loc`)
+            await axios.get(`${urlApi}/proprios/${idUser}/bien`)
                 .then((res) => {
                     if (res.data.message){
                         console.log(res.data.message)
                     } else {
-                        setLocataire(res.data);
+                        setBien(res.data);
                         console.log(res.data);
                     }
                 })
@@ -100,7 +100,7 @@ const Bien = () => {
     }
     const fetchOneData = async() => {
         if (idUser) {
-            await axios.get(`${urlApi}/loc/${idUser}/`)
+            await axios.get(`${urlApi}/bien/${idUser}/`)
                 .then((res) => {
                     if (res.data.message){
                         console.log(res.data.message)
@@ -118,12 +118,12 @@ const Bien = () => {
     }
     const postData = async(idBien) => {
         if (idUser) {
-            await axios.post(`${urlApi}/proprios/${idUser}/loc/bien/${idBien}`)
+            await axios.post(`${urlApi}/proprios/${idUser}/bien/${idBien}`)
                 .then((res) => {
                     if (res.data.message){
                         console.log(res.data.message)
                     } else {
-                        setLocataire(res.data);
+                        setBien(res.data);
                         console.log(res.data);
                     }
                 })
@@ -136,8 +136,8 @@ const Bien = () => {
         }
     }
     const deleteLocataire = async() => {
-        const idLoc = locataire.map(locataire => locataire._id);
-        await axios.delete(`${urlApi}/proprios/${idUser}/loc/${idLoc}`)
+        const idBien = bien.map(bien => bien._id);
+        await axios.delete(`${urlApi}/proprios/${idUser}/bien/${idBien}`)
             .then((res) => {
                 if (res.data.message){
                     alert(res.data.message);
@@ -152,8 +152,8 @@ const Bien = () => {
             })
     }
     const updateLocataire = async() => {
-        const idLoc = locataire.map(locataire => locataire._id);
-        await axios.put(`${urlApi}/proprios/${idUser}/loc/${idLoc}`,dataLocModif)
+        const idBien = bien.map(bien => bien._id);
+        await axios.put(`${urlApi}/proprios/${idUser}/bien/${idBien}`,dataLocModif)
             .then((res) => {
                 if (res.data.message){
                     alert(res.data.message);
@@ -167,7 +167,7 @@ const Bien = () => {
                 console.error(err.response.data.message);
             })
     }
-    //const fileredLocataire = locataire.filter(locataire => locataire._id === dataLocModif.);
+    //const fileredLocataire = bien.filter(bien => bien._id === dataLocModif.);
 
     useEffect(() => {
         getUsers();
@@ -200,7 +200,7 @@ const Bien = () => {
                     <div className={styles.btn_ajout} onClick={() => setShow(!show)}>Ajouter nouveau</div>
                     <div className={styles.choice}>
                     {
-                        locataire.length > 0 ? (
+                        bien.length > 0 ? (
                             <table className={styles.table}>
                                 <thead>
                                     <td>Nom</td>
@@ -213,14 +213,14 @@ const Bien = () => {
                                 </thead>
                                 <tbody>
                                     {
-                                        locataire.map((locataire) => (
-                                            <tr key={locataire._id}>
-                                                <td>{locataire.lastname}</td>
-                                                <td>{locataire.firstname}</td>
-                                                <td>{locataire.email}</td>
-                                                <td>{locataire.address}</td>
-                                                <td>{locataire.telephone}</td>
-                                                <td>{locataire.bien}</td>
+                                        bien.map((bien) => (
+                                            <tr key={bien._id}>
+                                                <td>{bien.lastname}</td>
+                                                <td>{bien.firstname}</td>
+                                                <td>{bien.email}</td>
+                                                <td>{bien.address}</td>
+                                                <td>{bien.telephone}</td>
+                                                <td>{bien.bien}</td>
                                                 <td style={{width:'15%',display:'flex',alignItems:'center'}}> 
                                                     <div className={styles.btn_modif} onClick={() => setShowUpdate(!showUpdate)}><i className="fas fa-pen"></i></div>
                                                     <div className={styles.btn_suppr} onClick={() => setShowDelete(!showDelete)}><i className="fas fa-trash"></i></div>
@@ -243,7 +243,7 @@ const Bien = () => {
             {/*MODALS */}
 
             <div className={show ? styles.modal : styles.modal_none}>
-                <h2>Nouveau locataire</h2>
+                <h2>Nouveau bien</h2>
                 <input type={"text"} placeholder="Nom" name='lastname' value={dataLoc.lastname} onChange={handleChange}/>
                 <input type={"text"} placeholder="Prenom" name='firstname' value={dataLoc.firstname} onChange={handleChange}/>
                 <input type={"text"} placeholder="Email" name='email' value={dataLoc.email} onChange={handleChange}/>
@@ -256,7 +256,7 @@ const Bien = () => {
             </div>
 
             <div className={showUpdate ? styles.modal : styles.modal_none}>
-                <h2>Modifier le locataire</h2>
+                <h2>Modifier le bien</h2>
                 <input type={"text"} placeholder="Nom" name='lastname' value={dataLocModif.lastname} onChange={handleChangeModif}/>
                 <input type={"text"} placeholder="Prenom" name='firstname' value={dataLocModif.firstname} onChange={handleChangeModif}/>
                 <input type={"text"} placeholder="Email" name='email' value={dataLocModif.email} onChange={handleChangeModif}/>
@@ -267,7 +267,7 @@ const Bien = () => {
             </div>
 
             <div className={showDelete ? styles.modal : styles.modal_none}>
-                <h2>Supprimer le locataire</h2>
+                <h2>Supprimer le bien</h2>
                 <p>Etes vous sûr de vouloir supprimer?</p>
                 <div className={styles.btn_ajout_confirm} onClick={deleteLocataire}>Supprimer</div>
                 <div className={styles.btn_ajout_confirm} onClick={() => setShowDelete(!show)}>Annuler</div>
