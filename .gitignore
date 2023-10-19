@@ -5,7 +5,7 @@ node_modules/
 build/
 
 # Ignore environment-specific files
-#.env
+.env
 
 # Ignore log files
 *.log
