@@ -1,1 +1,1 @@
-export const urlApi = 'http://localhost:5000/api' || 'https://location-app-mern.onrender.com/api'
+export const urlApi = 'https://location-app-mern.onrender.com/api'
