@@ -2,7 +2,7 @@ const express = require('express');
 const connectDB = require('./config/db');
 require('dotenv').config({ path: './config/.env' });
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;
 const uri = process.env.DB_URL;
 const proprioRoute = require('./routes/proprietaire.route');
 const locRoute = require('./routes/locataire.route');
