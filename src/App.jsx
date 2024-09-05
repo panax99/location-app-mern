@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import Locataire from './pages/Locataire'
 import Register from './pages/Register'
 import Signin from './pages/Signin'
+import Test from './pages/Test'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path='/register' element={<Register/>}/>
           <Route path='/locataires' element={<Locataire/>}/>
           <Route path='/biens' element={<Bien/>}/>
+          <Route path='/test' element={<Test/>}/>
         </Routes>
       </BrowserRouter>
     </>
