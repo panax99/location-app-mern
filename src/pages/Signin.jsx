@@ -11,6 +11,8 @@ const Signin = () => {
         email: "",
         password: ""
     });
+    const [watchPwd,setWatchPwd] = useState(false);
+
 
     const checkValid = async() => {
         try {
@@ -56,13 +58,19 @@ const Signin = () => {
     return(
         <>
             <div className={styles.container_auth}>
-                <div className={styles.container}>
+                <div className={styles.container+" space-y-5"}>
                     <span className={styles.title}>MyLocation!</span>
                     <p>Connectez-vous ici</p>
-                    <input type={"text"} placeholder="Email" name='email' value={user.email} onChange={handleChange}/>
-                    <input type={"text"} placeholder="Mot de passe" name='password' value={user.password} onChange={handleChange}/>
-                    <button className={styles.btnOne} onClick={signIn}>Confirmer</button>
-                    <p>Vous n'avez pas de compte? <Link to={'/register'}>S'inscrire</Link></p>
+                    <div className='relative flex flex-col mb-3 w-full items-center space-y-3 justify-center overflow-hidden'>
+                        <input type={"text"} className="py-3 outline-none focus:border-b-orange-300 focus:border-" placeholder="Email" name='email' value={user.email} onChange={handleChange}/>
+                        <div className='relative flex w-full items-center justify-center overflow-hidden'>
+                            <input type={`${watchPwd ? "text" : "password"}`} className="py-3 outline-none focus:border-b-orange-300 focus:border-" placeholder="Mot de passe" name='password' value={user.password} onChange={handleChange}/>
+                            <i className={`fas ${watchPwd ? "fa-eye-slash" : "fa-eye"}  fa-md absolute justify-end right-0`} onClick={() => {setWatchPwd(prev => !prev)}}/>
+                        </div>
+                    </div>
+                    
+                    <button className={"py-2 px-3 bg-gradient-to-bl text-white from-orange-200 to-[#DEB887] w-full rounded "} onClick={signIn}>Confirmer</button>
+                    <p c>Vous n'avez pas de compte? <Link to={'/register'} className='text-orange-300'>S'inscrire</Link></p>
                 </div>
             </div>
         </>

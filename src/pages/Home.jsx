@@ -23,7 +23,7 @@ const Home = () => {
             }
         } catch (error) {
             navigate('/login');
-            alert("Vous n'avez pas d'autorisation!");
+            //alert("Vous n'avez pas d'autorisation!");
             localStorage.removeItem("token");
         }
     }

@@ -24,22 +24,11 @@
 .container p {
     font-size: 17px;
 }
-.btnOne{
-    padding: 1em;
-    width: 100%;
-    background: burlywood;
-    color: white;
-    border-radius: 5px;
-    margin-top: 1.5em;
-    border: 0;
-    cursor: pointer;
-}
 
 .title{
     color: burlywood;
     font-size: 36px;
     font-weight: 700; 
-    margin-bottom: 0.3em;  
     font-family: Canela;
 }
 
@@ -54,9 +43,13 @@ input {
     padding: 1em;
     padding-left: 0;
     border: 0;
-    width: 94%;
+    width: 100%;
     margin-top: 0.8em;
+    outline: none;
     font-size: 15px;
+    border-bottom: 1px solid burlywood;
+}
+input:focus{
     border-bottom: 1px solid burlywood;
 }
 input::before {
